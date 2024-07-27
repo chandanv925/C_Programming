@@ -150,6 +150,20 @@ int swapBits(int n, int i, int j) {
     
     return n;
 }
+
+=================================================
+00 . Reverse all the bit 
+
+int rev_all_bit(int num) {
+	int num2 = 0;
+	while(num) {
+		int temp = num&1;
+		num2 = (num2<<1) | temp;
+		num = num>>1;
+	}
+	return num2;
+}
+
 =================================================
 00. Bitwise opration: Implement bitwise AND, OR, XOR, and left/right shift operations.
 
@@ -282,7 +296,7 @@ int sum_of_digit(int num){
 00. Prime Number Check: Write a function to check if a given number is prime or not.
 
 bool isPrime(int num) {
-    if (num <= 1) {
+    if (num < 2) {
         return false;  // 0 and 1 are not prime numbers
     }
     
@@ -427,7 +441,7 @@ int lcm(int a, int b)
 =================================================
 00. Armstrong Number Check: Write a function to check if a number is an Armstrong number.
 
-int wordcount(int n){
+int digit_count(int n){
     int count = 0;
     while(n > 0){
         n= n/10;
@@ -439,7 +453,7 @@ int wordcount(int n){
 bool isArmstrong(int n){
     int originalNum = n;
     int result = 0;
-    int wc = wordcount(originalNum); 
+    int wc = digit_count(originalNum); 
 
     while( n > 0){
         int digit = n%10;
@@ -559,8 +573,6 @@ void transpose(int mat[][4], int matt[][3], int row, int col){
 }
 -----------------------------------------
 
-Factorial of Large Numbers: Write a function to compute the factorial of large numbers using arrays.
-Decimal to Hexadecimal Conversion: Write a function to convert a decimal number to hexadecimal.
 Hexadecimal to Decimal Conversion: Write a function to convert a hexadecimal number to decimal.
 Tower of Hanoi: Implement the Tower of Hanoi problem.
 
