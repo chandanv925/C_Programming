@@ -2,27 +2,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+
+#define COUNTOF(arr) (sizeof(arr)/sizeof(arr[0]))
+
 struct Node{
     int data;
     struct Node *next;
-} *first = NULL;
+} *first = NULL, *second = NULL, *third = NULL;
+
+/* Create node*/
+struct Node *create_node(){
+    return (struct Node *)malloc(sizeof(struct Node));
+}
 
 /* Create a linked list using array*/
-void create(int A[], int n){
+struct Node *create_list(int A[], int n){
     int i;
-    struct Node *new, *last;
-    first = (struct Node *)malloc(sizeof(struct Node));
-    first->data = A[0];
-    first->next = NULL;
-    last = first;
+    struct Node *new, *last, *head;
+    head = create_node();
+    head->data = A[0];
+    head->next = NULL;
+    last = head;
 
     for (i = 1; i < n; i++){
-        new = (struct Node *)malloc(sizeof(struct Node));
+        new = create_node();
         new->data = A[i];
         new->next = NULL;
         last->next = new;
         last = new;
     }
+    return head;
 }
 
 /* Count the number of node in a list*/
@@ -48,6 +57,7 @@ void Display(struct Node *head){
         printf("%d ", ptr->data);
         ptr = ptr->next;
     }
+    printf("\n");
 }
 
 /* Display the list in reverse order*/
@@ -57,6 +67,7 @@ void RDisplay(struct Node *head){
         RDisplay(ptr->next);
         printf("%d ", ptr->data);
     }
+
 }
 
 /* Find the max in a list */
@@ -262,15 +273,77 @@ void Reverse3(struct Node *q, struct Node *p){
         first = q;
 }
 
+/* Merge tow sorted list */
+struct Node *Merge(struct Node *p, struct Node *q){
+    struct Node *last, *merged_list;
+    if (p->data < q->data){
+        merged_list = last = p;
+        p = p->next;
+        merged_list->next = NULL;
+    }
+    else{
+        merged_list = last = q;
+        q = q->next;
+        merged_list->next = NULL;
+    }
+    while (p && q){
+        if (p->data < q->data){
+            last->next = p;
+            last = p;
+            p = p->next;
+            last->next = NULL;
+        }
+        else{
+            last->next = q;
+            last = q;
+            q = q->next;
+            last->next = NULL;
+        }
+    }
+    if (p)
+        last->next = p;
+    if (q)
+        last->next = q;
+
+    return merged_list;
+}
+
+/* Check if the list is has a loop*/
+int isLoop(struct Node *f){
+    struct Node *p, *q;
+    p = q = f;
+
+    do{
+        p = p->next;
+        q = q->next;
+        q = q ? q->next : q;
+    } while (p && q && p != q);
+
+    return p == q ? 1 : 0;
+}
 
 /*Driver code*/
 int main()
 {
 
-    int A[] = {10, 20, 30, 40, 50};
-    create(A, 5);
+    int A[] = {10, 25, 30, 45, 50};
+    int B[] = {15, 25, 35, 45, 55};
+    first = create_list(A, COUNTOF(A));
+    second = create_list(B, COUNTOF(B));
+    //printf("%d\n",count(first));
+    Display(first);
     Delete(first, 2);
     Display(first);
+    Insert(first, 1, 25);
+    Display(first);
+    //printf("%d\n",isLoop(first));
+    third = Merge(first, second);
+    Display(third);
+    //Reverse1(third);
+    Display(third);
+
+    RemoveDuplicate(third);
+    Display(third);
 
     return 0;
 }
