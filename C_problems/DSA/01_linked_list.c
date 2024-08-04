@@ -295,18 +295,19 @@ void Reverse1(struct Node *p)
         i--;
     }
 }
-void Reverse2(struct Node *p)
+struct Node * Reverse2(struct Node *head)
 {
-    struct Node *q = NULL, *r = NULL;
+    struct Node *ptr = head, *r , *q;
+    r = q = NULL;
 
-    while (p != NULL)
+    while (ptr != NULL)
     {
-        r = q;
-        q = p;
-        p = p->next;
+        q = ptr;
+        ptr = ptr->next;
         q->next = r;
+        r = q;
     }
-    first = q;
+    return q;
 }
 void Reverse3(struct Node *q, struct Node *p)
 {
@@ -393,11 +394,11 @@ int main()
     // printf("%d\n",isLoop(first));
     third = Merge(first, second);
     Display(third);
-    // Reverse1(third);
+    third = Reverse2(third);
     Display(third);
 
-    RemoveDuplicate(third);
-    Display(third);
+    //RemoveDuplicate(third);
+    //Display(third);
 
     return 0;
 }
