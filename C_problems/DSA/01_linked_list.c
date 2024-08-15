@@ -9,12 +9,15 @@ struct Node
 {
     int data;
     struct Node *next;
-} *first = NULL, *second = NULL, *third = NULL;
+} *first = NULL, *second = NULL, *third = NULL, *fourth, *fifth;
 
 /* Create node*/
-struct Node *create_node()
+struct Node *create_node(int a)
 {
-    return (struct Node *)malloc(sizeof(struct Node));
+    struct Node *new = (struct Node *)malloc(sizeof(struct Node));
+    new->data = a;
+    new->next = NULL;
+    return new;
 }
 
 /* Create a linked list using array*/
@@ -22,16 +25,12 @@ struct Node *create_list(int A[], int n)
 {
     int i;
     struct Node *new, *last, *head;
-    head = create_node();
-    head->data = A[0];
-    head->next = NULL;
+    head = create_node(A[0]);
     last = head;
 
     for (i = 1; i < n; i++)
     {
-        new = create_node();
-        new->data = A[i];
-        new->next = NULL;
+        new = create_node(A[i]);
         last->next = new;
         last = new;
     }
@@ -163,32 +162,48 @@ int sumDifference(struct Node *head)
 }
 
 /* Insert a node at any index*/
-void Insert(struct Node *p, int index, int val)
+struct Node *Insert(struct Node *head, int index, int val)
 {
-    struct Node *new;
+    struct Node *new, *ptr = head;
     int i;
 
-    if (index < 0 || index > count(p))
+    if (index < 0 || index > count(head))
     {
-        return;
+        return head;
     }
-    new = create_node();
-    new->data = val;
+    new = create_node(val);
 
     if (index == 0)
     {
-        new->next = first;
-        first = new;
+        new->next = head;
+        return new;
     }
     else
     {
         for (i = 0; i < index - 1; i++)
         {
-            p = p->next;
+            ptr = ptr->next;
         }
-        new->next = p->next;
-        p->next = new;
+        new->next = ptr->next;
+        ptr->next = new;
+        return head;
     }
+}
+
+struct Node *apend(struct Node *head, int val)
+{
+    struct Node *ptr = head;
+    struct Node *new = create_node(val);
+    if (head == NULL)
+    {
+        return new;
+    }
+    while (ptr->next)
+    {
+        ptr = ptr->next;
+    }
+    ptr->next = new;
+    return head;
 }
 
 /* Linear Search in the list*/
@@ -222,32 +237,30 @@ struct Node *RSearch(struct Node *head, int key)
 }
 
 /* Delete a node from the list */
-int Delete(struct Node *p, int index)
+struct Node *Delete(struct Node *head, int ind)
 {
-    struct Node *q = NULL;
-    int x = -1, i;
-
-    if (index < 1 || index > count(p))
-        return -1;
-    if (index == 1)
+    if (ind < 0 || ind > count(head) - 1)
     {
-        q = first;
-        x = first->data;
-        first = first->next;
-        free(q);
-        return x;
+        printf("Delition failed, Invalid INDEX : %d\n", ind);
+        return head;
+    }
+    struct Node *p = head, *q;
+    if (ind == 0)
+    {
+        head = head->next;
+        free(p);
+        return head;
     }
     else
     {
-        for (i = 0; i < index - 1; i++)
+        for (int i = 0; i < ind; i++)
         {
             q = p;
             p = p->next;
         }
         q->next = p->next;
-        x = p->data;
         free(p);
-        return x;
+        return head;
     }
 }
 
@@ -295,9 +308,9 @@ void Reverse1(struct Node *p)
         i--;
     }
 }
-struct Node * Reverse2(struct Node *head)
+struct Node *Reverse2(struct Node *head)
 {
-    struct Node *ptr = head, *r , *q;
+    struct Node *ptr = head, *r, *q;
     r = q = NULL;
 
     while (ptr != NULL)
@@ -387,9 +400,10 @@ int main()
     second = create_list(B, COUNTOF(B));
     // printf("%d\n",count(first));
     Display(first);
-    Delete(first, 2);
+    first = Delete(first, 2);
     Display(first);
-    Insert(first, 1, 25);
+    first = Insert(first, 0, 25);
+    first = apend(first, 25);
     Display(first);
     // printf("%d\n",isLoop(first));
     third = Merge(first, second);
@@ -397,8 +411,8 @@ int main()
     third = Reverse2(third);
     Display(third);
 
-    //RemoveDuplicate(third);
-    //Display(third);
+    // RemoveDuplicate(third);
+    // Display(third);
 
     return 0;
 }
