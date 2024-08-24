@@ -132,7 +132,7 @@ bool BinSearch(int *arr, int len, int *mid, int target) {
 
 
     while(low <= high) {
-        *mid = low + (high - low) / 2;
+        *mid = (high + low) / 2;
 
         if(arr[*mid] == target)
             return true;
