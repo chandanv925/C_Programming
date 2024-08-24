@@ -1,5 +1,4 @@
-00. Reverse the array
-
+// 00. Reverse the array
 void reverse(int* nums, int start, int end) {
     while (start < end) {
         int temp = nums[start];
