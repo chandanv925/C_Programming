@@ -477,6 +477,18 @@ int isPalindrome(char *str) {
     return 1; // Palindrome
 }
 
+bool is_palindrome(const char *str) {
+    int len = strlen(str);
+    int i, j;
+
+    for (i = 0, j = len - 1; i < j; i++, j--) {
+        if (tolower(str[i]) != tolower(str[j])) {
+            return false;
+        }
+    }
+    return true;
+}
+
 ========================================================
 00. Convert the string "12345" to an integer in C,
 
