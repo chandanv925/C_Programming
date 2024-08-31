@@ -24,16 +24,15 @@ int strlen3(char *str){
 
 // 00. concatenating one string to the end of the other
 void addStrings(char str1[], char str2[]) {
-    int len1 = strlen(str1);
-    int len2 = strlen(str2);
+    int len1 = strlen(str1);  // Get the length of str1
+    int len2 = strlen(str2);  // Get the length of str2
 
-    // Resize str1 to accommodate str2
-    str1[len1 + len2] = '\0';
-
-    // Append characters of str2 to str1
     for (int i = 0; i < len2; i++) {
         str1[len1 + i] = str2[i];
     }
+
+    // Add null terminator at the end of the combined string
+    str1[len1 + len2] = '\0';
 }
 
 void addStrings2(char str1[], char str2[]){
@@ -80,6 +79,16 @@ void del_dup_char(char *str) {
 }
 
 // 00. Count Words in a String: Write a function to count the number of words in a string.
+int countWords1(char *s) {
+    int count = 0;
+    for (int i = 1; s[i] != '\0'; i++) {
+        if (s[i] == ' ' && s[i-1] != ' ') {
+            count++;
+        }
+    }
+    return count;
+}
+
 int countWords(char *s) {
     int count = 0;
     bool inWord = false;
@@ -156,40 +165,68 @@ int string_to_int(const char *str) {
 
 
 // 00. Function to strip leading and trailing whitespace from a string
-
 void strip(char *str) {
-    char *end;
-    char *start = str;  // Keep track of the original start of the string
+    char *start = str;
+    char *end = str + strlen(str) - 1;
 
-    // Trim leading space
-    while (isspace((unsigned char)*str)) str++;
-
-    if (*str == 0) { // All spaces
-        *start = 0; // Set the original start to null terminator
-        return;
+    // Skip leading spaces
+    while (isspace(*start)) {
+        start++;
     }
-
-    // Trim trailing space
-    end = str + strlen(str) - 1;
-    while (end > str && isspace((unsigned char)*end)) end--;
-
-    // Write new null terminator
+    // Skip trailing spaces
+    while (isspace(*end) && start <= end) {
+        end--;
+    }
+    // Adjust the string length and null-terminate
     *(end + 1) = '\0';
-
-    // Shift the trimmed string to the start of the original buffer
-    memmove(start, str, strlen(str)+1); // +2 
-	
 }
 
-
-// 00. Remove Whitespace from String: Write a function to remove whitespace characters from a string.
-
-
 // 00. Substring Search: Write a function to find a substring within a string.
+    /*Naive" approach or implement more efficient algorithms like KMP (Knuth-Morris-Pratt) or Boyer-Moore. 
+    Use strstr to find the substring char *pos = strstr(str, substr);*/
+char* findSubstring(const char* str, const char* substr) {
+    int len_str = strlen(str);
+    int len_substr = strlen(substr);
+
+    if (len_substr == 0) {
+        return (char*)str;
+    }
+
+    for (int i = 0; i <= len_str - len_substr; i++) {
+        // Check if the substring matches at this position
+        int j;
+        for (j = 0; j < len_substr; j++) {
+            if (str[i + j] != substr[j]) {
+                break;
+            }
+        }
+        // If the whole substring was found, return the pointer to its start
+        if (j == len_substr) {
+            return (char*)(str + i);
+        }
+    }
+    return NULL;
+}
+
+// 00. Substring Delete: Write a function to delete a substring within a string.
+void deleteSubstring(char str[], const char substr[]) {
+    char *pos = strstr(str, substr); // Find the position of the substring
+
+    if (pos != NULL) { // If the substring is found
+        int len = strlen(substr); // Length of the substring
+
+        // Shift the characters after the substring to the left
+        while (*(pos + len) != '\0') {
+            *pos = *(pos + len);
+            pos++;
+        }
+        *pos = '\0';
+    }
+}
 
 int main() {
     char str[] = "   Hello   world  this   is a   test  ";
-    int wordCount = countWords(str);
+    int wordCount = countWords1(str);
     printf("The number of words is: %d\n", wordCount);
     return 0;
 }
