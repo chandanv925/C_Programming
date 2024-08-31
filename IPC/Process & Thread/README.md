@@ -33,7 +33,9 @@ The OS schedules processes based on algorithms like First-Come-First-Serve (FCFS
 -	Processes are created using system calls like fork() and terminated using exit() or by being killed by another process.
 Detailed Example with Source Code
 Here, we will delve into process creation, execution, and termination using system calls in C.
+
 **Example:** Process Creation and Execution
+
 This example demonstrates how a new process is created using fork(), and how the child process executes a new program using execvp(), while the parent process waits for the child to complete.
 ```C++
 #include <stdio.h>
