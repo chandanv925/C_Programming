@@ -242,8 +242,7 @@ void mergeArrays2(int arr1[], int arr2[], int n1, int n2){
 	}
 }
 
-// 00. Function to find the majority element in an array
-
+// 00. Function to find the majority element in an array must have occurance numsSize/2
    //code implementing the Boyer-Moore Voting Algorithm:
 int majorityElement(int* nums, int numsSize) {
     int candidate = nums[0];
@@ -261,15 +260,27 @@ int majorityElement(int* nums, int numsSize) {
             }
         }
     }
-    // Step 2: Verify the candidate (optional, based on problem assumption)
-    count = 0;
-    for (int i = 0; i < numsSize; i++) {
-        if (nums[i] == candidate) {
-            count++;
+    return candidate;
+}
+
+//00. find the mode (or "bahulak") of a set of numbers
+int findMode(int arr[], int size) {
+    int maxCount = 0;
+    int mode = arr[0];
+
+    for (int i = 0; i < size; i++) {
+        int count = 0;
+        for (int j = 0; j < size; j++) {
+            if (arr[j] == arr[i]) {
+                count++;
+            }
+        }
+        if (count > maxCount) {
+            maxCount = count;
+            mode = arr[i];
         }
     }
-    // Assumption: There is always a majority element
-    return candidate;
+    return mode;
 }
 
 int main() {
