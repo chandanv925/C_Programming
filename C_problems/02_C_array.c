@@ -68,6 +68,32 @@ int findSecondMax(int arr[], int len) {
     return second_max;
 }
 
+// 00. Move all the zero rigth
+void move_all_zero_right(int *arr, int len){
+	int index = 0;
+	for (int i = 0; i < len; i++){
+		if(arr[i] != 0){
+			arr[index++] = arr[i];
+		}
+	}
+	while(index < len){
+		arr[index++] = 0;
+	}
+}
+
+// 00. Move all the zero left
+void move_all_zero_left(int *arr, int len){
+	int index = len -1;
+	for (int i = len -1 ; i >= 0; i--){
+		if(arr[i] != 0){
+			arr[index--] = arr[i];
+		}
+	}
+	while(index >= 0){
+		arr[index--] = 0;
+	}
+}
+
 // 00. Concatenating two integer arrays in 
 int *conct_array(int *array1, int *array2, int l1, int l2){
     int *newarray = (int *)malloc((l1 + l2) * sizeof(int));
