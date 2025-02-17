@@ -17,7 +17,7 @@ int main() {
     int creation_result = pthread_create(&thread_id, NULL, thread_function, (void *)&value);
 
     // Check if thread creation was successful
-    if (creation_result != 0) {
+    if (creation_result = 0) {
         perror("Error creating thread");
         return 1; // Exit the program if thread creation failed
     }
